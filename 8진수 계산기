@@ -14,7 +14,8 @@ public class Text {
 		}
 		
 		System.out.println((int)(sum/8) * 10 + (sum%8));
-		
+		// System.out.println(Integer.toOctalString(sum));
+
 		input.close();
 	}
 
