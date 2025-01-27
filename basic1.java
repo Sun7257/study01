@@ -2,6 +2,8 @@ package goorm;
 
 import java.util.Scanner;
 
+// 대소문자 변경 
+
 public class basic1 {
 
 	public static void main(String[] args) {
