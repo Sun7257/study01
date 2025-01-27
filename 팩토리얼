@@ -1,0 +1,23 @@
+package goorm;
+
+import java.util.Scanner;
+
+public class Factorial {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+
+		int n = input.nextInt();
+		long sum = 1;
+		for (int i = 1; i <= n; i++) {
+			sum *= i;
+			if (sum >= 1000000007)
+				sum %= 1000000007;
+		}
+		System.out.println(sum);
+
+		input.close();
+
+	}
+
+}
