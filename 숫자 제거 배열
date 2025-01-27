@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+public class Text {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		
+		int n = input.nextInt();
+		String k = input.next();
+		int result = 0;
+		
+		for (int i = 0; i < n; i ++) {
+			String test = input.next();
+			if(!test.contains(k))
+				result++;
+		}
+		System.out.println(result);
+		
+		input.close();
+	}
+
+}
