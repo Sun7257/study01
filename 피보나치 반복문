@@ -1,0 +1,30 @@
+package goorm;
+
+import java.util.Scanner;
+
+class Text {
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+
+		int k = input.nextInt();
+
+		if (k == 1)
+			System.out.println(0);
+		if (k == 2)
+			System.out.println(1);
+
+		int n1 = 0;
+		int n2 = 1;
+		int sum = 0;
+		int m = 1000000007;
+		for (int i = 2; i < k; i++) {
+			sum = ((n2 % m) + (n1 % m)) % m;
+			n1 = n2 % m;
+			n2 = sum % m;
+		}
+
+		System.out.println(sum);
+
+		input.close();
+	}
+}
