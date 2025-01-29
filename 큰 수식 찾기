@@ -1,0 +1,55 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+
+		String s1 = input.next();
+		String s2 = input.next();
+		
+		long i1 = calcu(s1);
+		long i2 = calcu(s2);
+		
+		if (i1 > i2)
+			System.out.println(i1);
+		else
+			System.out.println(i2);
+		input.close();
+	}
+
+	static long calcu(String s) {
+		String[] arr = s.split("\\+|\\*|\\-"); // 숫자만 남김
+		List<Long> list = new ArrayList<>();
+		for (int i = 0; i < arr.length; i++)
+			list.add(Long.valueOf(arr[i]));
+		StringBuilder s11 = new StringBuilder(s.replaceAll("[0-9]", "")); // 특수문자만 남김
+
+		while (s11.toString().contains("*")) {
+			int i = s11.indexOf("*");
+			s11.deleteCharAt(i);
+			list.add(i, list.get(i) * list.get(i + 1));
+			list.remove(i + 2);
+			list.remove(i + 1);
+		}
+
+		int s11len = s11.length();
+		for (int k = 0; k < s11len; k++) {
+			char c = s11.charAt(0);
+			s11.deleteCharAt(0);
+			if (c == '-') {
+				list.add(0, list.get(0) - list.get(1));
+				list.remove(2);
+				list.remove(1);
+			}
+			if (c == '+') {
+				list.add(0, list.get(0) + list.get(1));
+				list.remove(2);
+				list.remove(1);
+			}
+		}
+
+		return list.get(0);
+	}
+}
