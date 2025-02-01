@@ -1,1 +1,52 @@
-# 풀이 못함 내일이어서 0131
+# 풀이 못함 내일이어서 0131 정답 0201
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) throws Exception {
+		Scanner input = new Scanner(System.in);
+
+		int n = input.nextInt();
+		int max = input.nextInt();
+		int min = 0;
+		int now = 0;
+
+		List<Integer> list = new ArrayList<>();
+
+		for (int i = 0; i < n; i++) {
+			String s = input.next();
+			if (s.equals("push")) {
+				if (maxQ(now, max)) {
+					list.add(input.nextInt());
+					now++;
+				}
+				else {
+					System.out.println("Overflow");
+					input.nextInt();
+				}
+			} else {
+				if (minQ(now, min)) {
+					System.out.println(list.remove(0));
+					now--;
+				}
+				else
+					System.out.println("Underflow");
+			}
+		}
+	}
+
+	static boolean maxQ(int now, int max) {
+		if (now < max)
+			return true;
+		else
+			return false;
+	}
+
+	static boolean minQ(int now, int min) {
+		if (now > min)
+			return true;
+		else
+			return false;
+	}
+}
