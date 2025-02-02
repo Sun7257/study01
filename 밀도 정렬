@@ -1,0 +1,59 @@
+# 비교문제 
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+
+		int n = input.nextInt();
+		List<Mat> list = new ArrayList<>();
+		
+		for (int i = 0; i < n; i++) {
+			list.add(new Mat(input.nextInt(), input.nextInt()));
+		}
+		
+		list.sort(Comparator.comparing(Mat::getDen, Comparator.reverseOrder())
+				.thenComparing(Comparator.comparing(Mat::getWei, Comparator.reverseOrder()))
+				.thenComparing(Comparator.comparing(Mat::getNum)));
+		
+		System.out.println(list.get(0).getNum());
+		input.close();
+	}
+	
+}
+
+class Mat {
+	int wei;
+	int vol;
+	double den;
+	int num;
+	static int Mnum = 1;
+	
+	public Mat(int w, int v){
+		wei = w;
+		vol = v;
+		den = (double)w / (double)v;
+		num = Mnum++;
+	}
+	
+	public int getWei() {
+		return wei;
+	}
+	
+	public int getVol() {
+		return vol;
+	}
+	
+	public double getDen() {
+		return den;
+	}
+	
+	public int getNum() {
+		return num;
+	}
+	
+}
