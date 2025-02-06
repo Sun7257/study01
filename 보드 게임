@@ -28,3 +28,40 @@ class Main {
 		System.out.println(sum);
 	}
 }
+
+
+//챗gpt 코드 
+import java.io.*;
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) throws Exception {
+		Scanner input = new Scanner(System.in);
+
+		int n = input.nextInt();
+
+		if (n == 0) {
+			System.out.println("1");
+			return;
+		}
+		if (n == 1) {
+			System.out.println("1");
+			return;
+		}
+		if (n == 2) {
+			System.out.println("1");
+			return;
+		}
+		
+		long[] arr = new long[n+1];
+		arr[0]=1;
+		arr[1]=1;
+		arr[2]=1;
+		
+		for(int i = 3; i <= n; i++) {
+			arr[i] = (arr[i-1] + arr[i-3])%1_000_000_007;
+		}
+		System.out.println(arr[n]);
+	}
+}
+
