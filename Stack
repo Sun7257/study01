@@ -1,0 +1,39 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+class Main {
+	public static void main(String[] args) throws Exception {
+		Scanner input = new Scanner(System.in);
+
+		int n = input.nextInt();
+		int k = input.nextInt();
+		int inx = 0;
+		List<Integer> list = new ArrayList<>();
+		
+		for(int i = 0; i < n; i++) {
+			String s = input.next();
+			
+			if(s.equals("push")) {
+				if(inx+1 > k) {
+					System.out.println("Overflow");
+					input.nextInt();
+					continue;
+				}
+				list.add(input.nextInt());
+				inx++;
+			}
+			else if(s.equals("pop")) {
+				if(inx-1 < 0) {
+					System.out.println("Underflow");
+					continue;
+				}
+				System.out.println(list.remove(inx-1));
+				inx--;
+			}
+			else {
+				System.out.println("1111111111");
+			}
+		}
+		input.close();
+	}
+}
