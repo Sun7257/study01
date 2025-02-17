@@ -1,0 +1,92 @@
+package goorm;
+// 카운트가 안됨 확인필요, 중복세는거 고려안했음 다시짜야함 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Text {
+	
+	static int N;
+	static int sum = 0;
+	
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+
+		N = input.nextInt();
+		int mx = input.nextInt();
+		int my = input.nextInt();
+		int[][] arr = new int[N][N];
+		
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < N; j++) {
+				arr[i][j] = input.nextInt();
+			}
+		}
+		
+		int key = arr[mx][my];
+		int finalSum = 0;
+		
+//		for(int x = 0; x < N; x++) {
+//			for(int y = 0; y < N; y++) {
+//				if(arr[0][0] != key)
+//					continue;
+				count(arr, key, 0, 1);
+				if(sum > finalSum)
+					finalSum = sum;
+				sum = 0;
+//			}
+//		}
+				System.out.println(finalSum);
+		
+		input.close();
+	}
+	
+	public static void count(int[][] arr, int key, int x, int y) {	
+		if(arr[x][y] != key)
+			return;
+		if(up(arr, key, x, y) == 1) {
+			sum++;
+			count(arr, key, x-1, y);
+		}
+		if(down(arr, key, x, y) == 1) {
+			sum++;
+			count(arr, key, x+1, y);
+		}
+		if(right(arr, key, x, y) == 1) {
+			sum++;
+			count(arr, key, x, y+1);
+		}
+		if(left(arr, key, x, y) == 1) {
+			sum++;
+			count(arr, key, x, y-1);
+		}
+	}
+	public static int up(int[][] arr, int key, int x, int y) {
+		if(x <= 0)
+			return -1;
+		if(arr[x-1][y] != key)
+			return -1;
+		return 1;
+	}
+	public static int down(int[][] arr, int key, int x, int y) {
+		if(x+1 >= N )
+			return -1;
+		if(arr[x+1][y] != key)
+			return -1;
+		return 1;
+	}
+	public static int right(int[][] arr, int key, int x, int y) {
+		if(y+1 >= N)
+			return -1;
+		if(arr[x][y+1] != key)
+			return -1;
+		return 1;
+	}
+	public static int left(int[][] arr, int key, int x, int y) {
+		if(y <= 0)
+			return -1;
+		if(arr[x][y-1] != key)
+			return -1;
+		return 1;
+	}
+}
