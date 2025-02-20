@@ -1,0 +1,103 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+
+class Main {
+
+	static int sum = 0;
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+
+		int n = input.nextInt();
+		int xy = input.nextInt() + input.nextInt() * n;
+		List<Integer> list = new ArrayList<>(); // 원본
+		List<Integer> dlist = new ArrayList<>(); // 중복확인 0은 확인안함, 1은 확인완료
+		List<Integer> qlist = new LinkedList<>(); // 확인해야하는 리스트
+
+		// 입력받고 중복리스트초기화
+		for (int i = 0; i < n * n; i++) {
+			list.add(input.nextInt());
+			dlist.add(0);
+		}
+
+		int key = list.get(xy);
+		int finalSum = 0;
+
+		// 중복리스트 필요없는거 뒤집기
+		for (int i = 0; i < n * n; i++) {
+			if (list.get(i) != key)
+				dlist.set(i, 1);
+		}
+
+		for (int i = 0; i < list.size(); i++) {
+
+			if (dlist.get(i) == 0)
+				count(list, dlist, qlist, key, i, n);
+			if (sum > finalSum)
+				finalSum = sum;
+			sum = 0;
+		}
+		System.out.println(finalSum);
+
+		input.close();
+	}
+
+	public static void count(List<Integer> list, List<Integer> dlist, List<Integer> qlist, int key, int i, int n) {
+
+		if (i > n && dlist.get(i - n) == 0 && up(list, key, i, n) == 1) {
+			qlist.add(i - n);
+		}
+		if (i < n * n - n && dlist.get(i + n) == 0 && down(list, key, i, n) == 1) {
+			qlist.add(i + n);
+		}
+		if (i < n * n - 1 && dlist.get(i + 1) == 0 && right(list, key, i, n) == 1) {
+			qlist.add(i + 1);
+		}
+		if (i > 0 && dlist.get(i - 1) == 0 && left(list, key, i, n) == 1) {
+			qlist.add(i - 1);
+		}
+		dlist.set(i, 1);
+		sum++;
+
+		while (!qlist.isEmpty()) {
+			count(list, dlist, qlist, key, qlist.remove(0), n);
+		}
+
+	}
+
+	public static int up(List<Integer> list, int key, int i, int n) {
+		if (i < n)
+			return -1;
+		if (list.get(i - n) != key)
+			return -1;
+		return 1;
+	}
+
+	public static int down(List<Integer> list, int key, int i, int n) {
+		if (i > n * n - n)
+			return -1;
+		if (list.get(i + n) != key)
+			return -1;
+		return 1;
+	}
+
+	public static int right(List<Integer> list, int key, int i, int n) {
+		if ((i + 1) % n == 0)
+			return -1;
+		if (list.get(i + 1) != key)
+			return -1;
+		return 1;
+	}
+
+	public static int left(List<Integer> list, int key, int i, int n) {
+		if (i == 0)
+			return -1;
+		if (i % n == 0)
+			return -1;
+		if (list.get(i - 1) != key)
+			return -1;
+		return 1;
+	}
+}
