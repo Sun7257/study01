@@ -1,0 +1,143 @@
+// 테스트 케이스 8/20 고쳐야함
+
+
+package goorm;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+class Text {
+
+	static int[] answer = new int[4];
+	static int[] q = new int[4];
+	static int[] sbf = new int[4]; // strike 1, ball 2, fail 3
+	static int sum = 1;
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+
+		String aS = input.next();
+		String qS = input.next();
+
+		for (int i = 0; i < 4; i++)
+			answer[i] = aS.charAt(i) - '0';
+		for (int i = 0; i < 4; i++)
+			q[i] = qS.charAt(i) - '0';
+		input.close();
+
+		// 처음부터 일치하는경우
+		if (Arrays.equals(answer, q)) {
+			System.out.println(1);
+			input.close();
+			return;
+		}
+
+		// sbf 판단
+		sbfCheck();
+
+		for (int i = 0; i < 4; i++) {
+
+			if (sbf[i] == 1)
+				continue;
+			else if (sbf[i] == 3) {
+
+				// fail 인경우 반복
+				while (sbf[i] == 3) {
+					int temp = (q[i] + 1) % 10;
+
+					// 답에 값이 있는지 체크 있으면 +1 반복
+					for (int k = 0; k < 4; k++) {
+						if (q[k] == temp) {
+							temp = (temp + 1) % 10;
+							k = -1;
+						}
+					}
+					q[i] = temp;
+					sbfCheck(i);
+				}
+				// strike 인경우 바로 다음 인덱스
+				if (sbf[i] == 1)
+					continue;
+			}
+
+			// 여기까지 오는 경우는 ball인경우
+			// 임시 배열하나에 넣어서 대체
+			int[] temp = new int[4];
+
+			// strike 먼처 채움
+			for (int j = 0; j < 4; j++) {
+				if (sbf[j] == 1) {
+					temp[j] = q[j];
+				} else
+					temp[j] = -1;
+			}
+
+			// 오른쪽으로 한칸씩 이동, 끝칸인경우 첫번째로
+			// 이미 숫자가 있는경우 (=strike) 패스하고 다음칸
+			for (int j = 0; j < 4; j++) {
+				if (answer[j] == q[j])
+					continue;
+				for (int k = 1; k < 5; k++) {
+
+					if (k != 4 && temp[k] == -1) {
+						temp[k] = q[j];
+						break;
+					}
+					if (k == 4 && temp[0] == -1) {
+						temp[0] = q[j];
+						break;
+					}
+				}
+			}
+			if (!Arrays.equals(answer, q)) {
+				q = temp;
+				sum++;
+			}
+
+		}
+
+		System.out.println(Arrays.equals(answer, q));
+		for (int i = 0; i < 4; i++)
+			System.out.print(answer[i] + " ");
+		System.out.println();
+		for (int i = 0; i < 4; i++)
+			System.out.print(q[i] + " ");
+		System.out.println(sum);
+
+		input.close();
+	}
+
+	// 4칸 전부다 확인
+	public static void sbfCheck() {
+		for (int i = 0; i < 4; i++) {
+			sbf[i] = 3; // fail 일단 넣기
+
+			if (answer[i] == q[i]) {
+				sbf[i] = 1; // strike
+				continue;
+			}
+
+			for (int j = 0; j < 4; j++) {
+				if (answer[j] == q[i])
+					sbf[i] = 2; // ball
+			}
+		}
+	}
+
+	// 주어진 i 인덱스만 확인
+	public static void sbfCheck(int i) {
+
+		sbf[i] = 3; // fail 일단 넣기
+
+		if (answer[i] == q[i]) {
+			sbf[i] = 1; // strike
+			return;
+		}
+
+		for (int j = 0; j < 4; j++) {
+			if (answer[j] == q[i])
+				sbf[i] = 2; // ball
+		}
+	}
+
+}
